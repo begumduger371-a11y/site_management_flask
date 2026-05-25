@@ -1,0 +1,81 @@
+{% extends "base.html" %}
+
+{% block content %}
+<div class="container py-2">
+    <!-- Header Premium Glass Card -->
+    <div class="glass-card p-4 mb-4" style="border-left: 5px solid var(--primary);">
+        <div class="row align-items-center">
+            <div class="col-md-8">
+                <h2 class="brand-gradient fw-bold mb-2">
+                    <i class="fa-solid fa-wand-magic-sparkles me-2"></i>Gemini Yapay Zeka Destekli Akıllı Asistan
+                </h2>
+                <p class="text-secondary mb-0">Sitedeki teknik arızaları, güvenlik açıklarını veya riskli durumları yazın. Yapay zekamız anında İSG risk analizini çıkarsın ve acil çözüm önerileri sunsun.</p>
+            </div>
+            <div class="col-md-4 text-md-end mt-3 mt-md-0">
+                <span class="badge badge-danger p-2 fs-6 shadow">
+                    <i class="fa-solid fa-shield-halved me-1"></i> Siber Güvenlik & İSG Modülü
+                </span>
+            </div>
+        </div>
+    </div>
+
+    <div class="row">
+        <!-- Input Panel -->
+        <div class="col-md-5">
+            <div class="glass-card p-4 shadow-sm">
+                <h5 class="fw-bold mb-3 text-white">
+                    <i class="fa-solid fa-paper-plane me-2 text-primary"></i>Yeni Analiz Talebi
+                </h5>
+                
+                <form method="POST" action="">
+                    <div class="form-group mb-3">
+                        <label class="form-label fw-semibold">Sorun Kategorisi</label>
+                        <select name="issue_category" class="form-control form-select">
+                            <option value="Elektrik Arızası / Kaçak">⚡ Elektrik Arızası / Kaçak</option>
+                            <option value="Asansör ve Mekanik Arıza">⚙️ Asansör ve Mekanik Arıza</option>
+                            <option value="Siber Güvenlik / Kamera / Akıllı Kapı Zafiyeti">🔒 Siber Güvenlik / Kamera / Akıllı Kapı Zafiyeti</option>
+                            <option value="Yangın / Gaz Kaçağı Riski">🔥 Yangın / Gaz Kaçağı Riski</option>
+                            <option value="Çevre ve Havuz Güvenliği">🏊 Çevre ve Havuz Güvenliği</option>
+                        </select>
+                    </div>
+                    
+                    <div class="form-group mb-3">
+                        <label class="form-label fw-semibold">Durumu Detaylıca Açıklayın</label>
+                        <textarea name="user_description" rows="5" class="form-control" placeholder="Örn: B Blok otopark girişindeki otomatik kapının şifreleme paneli yerinden çıkmış, kablolar açıkta duruyor ve yağmur alıyor..."></textarea>
+                    </div>
+                    
+                    <button type="submit" class="btn btn-primary w-100 fw-bold py-2 mt-2">
+                        Yapay Zeka İle Analiz Et <i class="fa-solid fa-bolt ms-1"></i>
+                    </button>
+                </form>
+            </div>
+        </div>
+
+        <!-- Output Panel -->
+        <div class="col-md-7">
+            <div class="glass-card p-4 shadow-sm" style="min-height: 400px; display: flex; flex-direction: column;">
+                <h5 class="fw-bold mb-3 text-success">
+                    <i class="fa-solid fa-robot me-2"></i>Gemini Asistan Raporu
+                </h5>
+                
+                {% if ai_response %}
+                    <div class="p-4 rounded border text-light ai-response-content shadow-inner flex-grow-1" 
+                         style="background: rgba(16, 185, 129, 0.04); border-color: rgba(16, 185, 129, 0.25) !important; white-space: pre-wrap; font-size: 0.95rem; line-height: 1.7;">
+                        {{ ai_response }}
+                    </div>
+                {% else %}
+                    <div class="text-center text-secondary my-auto py-5 flex-grow-1 d-flex flex-column justify-content-center">
+                        <p class="fs-1 text-primary mb-3">
+                            <i class="fa-solid fa-chart-line fa-bounce"></i>
+                        </p>
+                        <p class="fw-semibold mb-1 text-white">Raporlama Hazır</p>
+                        <p class="px-4 text-muted" style="font-size: 0.9rem;">
+                            Soldaki formu doldurup analiz başlattığınızda, yapay zekanın ürettiği detaylı İSG risk ve siber güvenlik raporu burada görünecektir.
+                        </p>
+                    </div>
+                {% endif %}
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}

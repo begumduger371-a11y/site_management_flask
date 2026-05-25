@@ -1,0 +1,77 @@
+{% extends "base.html" %}
+
+{% block content %}
+<div class="page-title">
+    <div>
+        <span style="font-size: 0.95rem; font-weight: 500; color: var(--primary); display: block; text-transform: uppercase; letter-spacing: 1px;">Pano</span>
+        Duyurular
+    </div>
+</div>
+
+<div class="{% if current_user.role == 'manager' %}two-col-layout{% endif %}">
+    <!-- Left Column: Announcements List -->
+    <div>
+        {% if announcements %}
+            {% for ann in announcements %}
+                <div class="glass-card" style="margin-bottom: 1.5rem; position: relative;">
+                    <div style="display: flex; justify-content: space-between; align-items: flex-start; margin-bottom: 0.75rem;">
+                        <h3 style="font-size: 1.2rem; color: #FFF; font-family: var(--font-heading);">
+                            {{ ann.title }}
+                        </h3>
+                        {% if current_user.role == 'manager' %}
+                            <form method="POST" action="{{ url_for('delete_announcement', ann_id=ann.id) }}" onsubmit="return confirm('Bu duyuruyu silmek istediğinize emin misiniz?');">
+                                <button type="submit" class="btn btn-danger" style="padding: 0.35rem 0.6rem; font-size: 0.8rem; border-radius: 8px;">
+                                    <i class="fa-solid fa-trash"></i> Sil
+                                </button>
+                            </form>
+                        {% endif %}
+                    </div>
+                    <p style="color: var(--text-secondary); font-size: 0.95rem; line-height: 1.6; margin-bottom: 1rem; white-space: pre-wrap;">{{ ann.content }}</p>
+                    <div style="display: flex; justify-content: space-between; align-items: center; border-top: 1px solid rgba(255, 255, 255, 0.04); padding-top: 0.75rem; font-size: 0.8rem; color: var(--text-muted);">
+                        <span>
+                            <i class="fa-solid fa-user-tie"></i> Yönetim tarafından yayınlandı
+                        </span>
+                        <span>
+                            <i class="fa-solid fa-calendar"></i> {{ ann.date.strftime('%d.%m.%Y %H:%M') }}
+                        </span>
+                    </div>
+                </div>
+            {% endfor %}
+        {% else %}
+            <div class="glass-card" style="text-align: center; padding: 3rem;">
+                <i class="fa-solid fa-bullhorn" style="font-size: 3rem; color: var(--text-muted); margin-bottom: 1rem;"></i>
+                <p style="color: var(--text-secondary);">Şu an yayınlanmış hiçbir aktif duyuru bulunmuyor.</p>
+            </div>
+        {% endif %}
+    </div>
+
+    <!-- Right Column: Create Announcement Form (Managers Only) -->
+    {% if current_user.role == 'manager' and form %}
+        <div>
+            <div class="glass-card" style="position: sticky; top: 100px;">
+                <div class="card-title">
+                    <i class="fa-solid fa-plus text-primary"></i> Yeni Duyuru Yayınla
+                </div>
+                
+                <form method="POST" action="{{ url_for('new_announcement') }}">
+                    {{ form.hidden_tag() }}
+                    
+                    <div class="form-group">
+                        <label for="title" class="form-label">Başlık</label>
+                        {{ form.title(class="form-control", placeholder="Örn: Asansör Bakımı Hakkında", id="title") }}
+                    </div>
+                    
+                    <div class="form-group">
+                        <label for="content" class="form-label">Duyuru İçeriği</label>
+                        {{ form.content(class="form-control", rows="5", placeholder="Sakinlerimize duyurulacak detaylı açıklama...", id="content") }}
+                    </div>
+                    
+                    <button type="submit" class="btn btn-primary btn-block" style="margin-top: 1.5rem;">
+                        <i class="fa-solid fa-paper-plane"></i> Duyuruyu Yayınla
+                    </button>
+                </form>
+            </div>
+        </div>
+    {% endif %}
+</div>
+{% endblock %}

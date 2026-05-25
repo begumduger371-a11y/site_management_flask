@@ -1,0 +1,51 @@
+{% extends "base.html" %}
+
+{% block content %}
+<div class="auth-wrapper row justify-content-center">
+    <div class="col-md-4">
+        <div class="glass-card auth-card shadow-sm p-4 mt-5">
+            <div class="auth-header text-center mb-4">
+                <h3 class="brand-gradient fw-bold">Sisteme Giriş</h3>
+                <p class="text-secondary small">Devam etmek için bilgilerinizi girin</p>
+            </div>
+            
+            <form method="POST" action="">
+                {{ form.hidden_tag() }}
+                
+                <div class="form-group mb-3">
+                    {{ form.email.label(class="form-label") }}
+                    {{ form.email(class="form-control", placeholder="ad.soyad@domain.com") }}
+                    {% if form.email.errors %}
+                        {% for error in form.email.errors %}
+                            <span class="badge badge-danger mt-1 d-inline-block">{{ error }}</span>
+                        {% endfor %}
+                    {% endif %}
+                </div>
+                
+                <div class="form-group mb-3">
+                    {{ form.password.label(class="form-label") }}
+                    {{ form.password(class="form-control", placeholder="••••••••") }}
+                    {% if form.password.errors %}
+                        {% for error in form.password.errors %}
+                            <span class="badge badge-danger mt-1 d-inline-block">{{ error }}</span>
+                        {% endfor %}
+                    {% endif %}
+                </div>
+                
+                <div class="form-group mb-3 form-check d-flex align-items-center gap-2">
+                    {{ form.remember(class="form-check-input") }}
+                    {{ form.remember.label(class="form-check-label text-secondary", style="font-size: 0.9rem; cursor: pointer;") }}
+                </div>
+                
+                {{ form.submit(class="btn btn-primary w-100 btn-block fw-bold") }}
+            </form>
+            
+            <div class="auth-footer text-center mt-4">
+                <p class="mb-0 text-secondary" style="font-size: 0.9rem;">
+                    Hesabınız yok mu? <a href="{{ url_for('register') }}" class="text-info fw-bold text-decoration-none">Kayıt Olun</a>
+                </p>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}

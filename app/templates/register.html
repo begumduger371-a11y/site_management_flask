@@ -1,0 +1,86 @@
+{% extends "base.html" %}
+
+{% block content %}
+<div class="auth-wrapper row justify-content-center">
+    <div class="col-md-5">
+        <div class="glass-card auth-card shadow-sm p-4">
+            <div class="auth-header text-center mb-4">
+                <h3 class="brand-gradient fw-bold">Yeni Sakin / Yönetici Kaydı</h3>
+                <p class="text-secondary small">Site yönetim sistemine katılmak için formu doldurun</p>
+            </div>
+            
+            <form method="POST" action="">
+                {{ form.hidden_tag() }}
+                
+                <div class="form-group mb-3">
+                    {{ form.name.label(class="form-label") }}
+                    {{ form.name(class="form-control", placeholder="Ad Soyad") }}
+                    {% if form.name.errors %}
+                        {% for error in form.name.errors %}
+                            <span class="badge badge-danger mt-1 d-inline-block">{{ error }}</span>
+                        {% endfor %}
+                    {% endif %}
+                </div>
+                
+                <div class="form-group mb-3">
+                    {{ form.email.label(class="form-label") }}
+                    {{ form.email(class="form-control", placeholder="ad.soyad@domain.com") }}
+                    {% if form.email.errors %}
+                        {% for error in form.email.errors %}
+                            <span class="badge badge-danger mt-1 d-inline-block">{{ error }}</span>
+                        {% endfor %}
+                    {% endif %}
+                </div>
+                
+                <div class="form-group mb-3">
+                    {{ form.password.label(class="form-label") }}
+                    {{ form.password(class="form-control", placeholder="••••••••") }}
+                    {% if form.password.errors %}
+                        {% for error in form.password.errors %}
+                            <span class="badge badge-danger mt-1 d-inline-block">{{ error }}</span>
+                        {% endfor %}
+                    {% endif %}
+                </div>
+                
+                <div class="form-group mb-3">
+                    {{ form.confirm_password.label(class="form-label") }}
+                    {{ form.confirm_password(class="form-control", placeholder="••••••••") }}
+                    {% if form.confirm_password.errors %}
+                        {% for error in form.confirm_password.errors %}
+                            <span class="badge badge-danger mt-1 d-inline-block">{{ error }}</span>
+                        {% endfor %}
+                    {% endif %}
+                </div>
+                
+                <div class="form-group mb-3">
+                    {{ form.role.label(class="form-label") }}
+                    {{ form.role(class="form-control form-select") }}
+                    {% if form.role.errors %}
+                        {% for error in form.role.errors %}
+                            <span class="badge badge-danger mt-1 d-inline-block">{{ error }}</span>
+                        {% endfor %}
+                    {% endif %}
+                </div>
+                
+                <div class="form-group mb-3">
+                    {{ form.apartment_no.label(class="form-label") }}
+                    {{ form.apartment_no(class="form-control", placeholder="Örn: A Blok, Daire 5") }}
+                    {% if form.apartment_no.errors %}
+                        {% for error in form.apartment_no.errors %}
+                            <span class="badge badge-danger mt-1 d-inline-block">{{ error }}</span>
+                        {% endfor %}
+                    {% endif %}
+                </div>
+                
+                {{ form.submit(class="btn btn-success w-100 btn-block fw-bold") }}
+            </form>
+            
+            <div class="auth-footer text-center mt-4">
+                <p class="mb-0 text-secondary" style="font-size: 0.9rem;">
+                    Zaten hesabınız var mı? <a href="{{ url_for('login') }}" class="text-info fw-bold text-decoration-none">Giriş Yapın</a>
+                </p>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}

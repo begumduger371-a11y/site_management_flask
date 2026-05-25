@@ -1,0 +1,289 @@
+{% extends "base.html" %}
+
+{% block content %}
+<div class="page-title">
+    <div>
+        <span style="font-size: 0.95rem; font-weight: 500; color: var(--primary); display: block; text-transform: uppercase; letter-spacing: 1px;">
+            {% if current_user.role == 'manager' %}Yönetici Paneli{% else %}Sakin Paneli{% endif %}
+        </span>
+        Hoş geldiniz, {{ current_user.name }}
+    </div>
+    
+    <div>
+        <a href="{{ url_for('smart_assistant') }}" class="btn btn-primary">
+            <i class="fa-solid fa-wand-magic-sparkles"></i> Akıllı Asistan'a Sor
+        </a>
+    </div>
+</div>
+
+{% if current_user.role == 'manager' %}
+    <!-- ================= MANAGER DASHBOARD ================= -->
+    <div class="dashboard-grid">
+        <div class="stat-card stat-primary">
+            <div class="stat-info">
+                <h3>Bekleyen Arızalar</h3>
+                <div class="stat-value">{{ pending_count }}</div>
+            </div>
+            <div class="stat-icon"><i class="fa-solid fa-hourglass-half"></i></div>
+        </div>
+        
+        <div class="stat-card stat-secondary">
+            <div class="stat-info">
+                <h3>İşlemdeki Arızalar</h3>
+                <div class="stat-value">{{ in_progress_count }}</div>
+            </div>
+            <div class="stat-icon"><i class="fa-solid fa-spinner"></i></div>
+        </div>
+        
+        <div class="stat-card stat-success">
+            <div class="stat-info">
+                <h3>Çözülen Arızalar</h3>
+                <div class="stat-value">{{ done_count }}</div>
+            </div>
+            <div class="stat-icon"><i class="fa-solid fa-circle-check"></i></div>
+        </div>
+    </div>
+
+    <div class="dashboard-grid">
+        <div class="stat-card stat-primary">
+            <div class="stat-info">
+                <h3>Toplam Atanan Aidat</h3>
+                <div class="stat-value">{{ "%.2f"|format(total_dues) }} TL</div>
+            </div>
+            <div class="stat-icon"><i class="fa-solid fa-money-bill-wave"></i></div>
+        </div>
+        
+        <div class="stat-card stat-success">
+            <div class="stat-info">
+                <h3>Tahsil Edilen</h3>
+                <div class="stat-value">{{ "%.2f"|format(paid_dues) }} TL</div>
+            </div>
+            <div class="stat-icon"><i class="fa-solid fa-vault"></i></div>
+        </div>
+        
+        <div class="stat-card stat-danger">
+            <div class="stat-info">
+                <h3>Kalan Alacak</h3>
+                <div class="stat-value">{{ "%.2f"|format(unpaid_dues) }} TL</div>
+            </div>
+            <div class="stat-icon"><i class="fa-solid fa-hand-holding-dollar"></i></div>
+        </div>
+    </div>
+
+    <div class="two-col-layout">
+        <!-- Left Side: Maintenance & Announcements -->
+        <div>
+            <!-- Latest Maintenance Requests -->
+            <div class="glass-card">
+                <div class="card-title">
+                    <i class="fa-solid fa-wrench text-primary"></i> Son Arıza Bildirimleri
+                </div>
+                {% if requests %}
+                    <div class="table-responsive">
+                        <table class="table">
+                            <thead>
+                                <tr>
+                                    <th>Konu</th>
+                                    <th>Tarih</th>
+                                    <th>Durum</th>
+                                    <th>İşlem</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                {% for req in requests %}
+                                    <tr>
+                                        <td><strong>{{ req.subject }}</strong></td>
+                                        <td>{{ req.date.strftime('%d.%m.%Y %H:%M') }}</td>
+                                        <td>
+                                            {% if req.status == 'pending' %}
+                                                <span class="badge badge-pending">Beklemede</span>
+                                            {% elif req.status == 'in_progress' %}
+                                                <span class="badge badge-progress">İşlemde</span>
+                                            {% else %}
+                                                <span class="badge badge-completed">Tamamlandı</span>
+                                            {% endif %}
+                                        </td>
+                                        <td>
+                                            <a href="{{ url_for('maintenance_requests') }}" class="btn btn-secondary" style="padding: 0.25rem 0.5rem; font-size: 0.8rem;">Yönet</a>
+                                        </td>
+                                    </tr>
+                                {% endfor %}
+                            </tbody>
+                        </table>
+                    </div>
+                {% else %}
+                    <p style="color: var(--text-secondary); font-size: 0.95rem;">Şu an aktif bir arıza bildirimi bulunmuyor.</p>
+                {% endif %}
+            </div>
+
+            <!-- Latest Announcements -->
+            <div class="glass-card">
+                <div class="card-title">
+                    <i class="fa-solid fa-bullhorn text-secondary"></i> Güncel Duyurular
+                </div>
+                {% if announcements %}
+                    {% for ann in announcements %}
+                        <div style="padding: 1rem 0; border-bottom: 1px solid rgba(255, 255, 255, 0.04);">
+                            <h4 style="font-size: 1.05rem; margin-bottom: 0.25rem; color: #FFF;">{{ ann.title }}</h4>
+                            <p style="font-size: 0.9rem; color: var(--text-secondary); margin-bottom: 0.5rem;">{{ ann.content }}</p>
+                            <span style="font-size: 0.75rem; color: var(--text-muted);">
+                                <i class="fa-solid fa-calendar"></i> {{ ann.date.strftime('%d.%m.%Y') }}
+                            </span>
+                        </div>
+                    {% endfor %}
+                {% else %}
+                    <p style="color: var(--text-secondary); font-size: 0.95rem;">Yayınlanmış duyuru bulunmuyor.</p>
+                {% endif %}
+            </div>
+        </div>
+
+        <!-- Right Side: Resident Directory -->
+        <div>
+            <div class="glass-card">
+                <div class="card-title">
+                    <i class="fa-solid fa-users text-success"></i> Kayıtlı Sakinler
+                </div>
+                {% if residents %}
+                    <div style="display: flex; flex-direction: column; gap: 1rem;">
+                        {% for res in residents %}
+                            <div style="display: flex; align-items: center; justify-content: space-between; padding-bottom: 0.75rem; border-bottom: 1px solid rgba(255, 255, 255, 0.03);">
+                                <div>
+                                    <div style="font-weight: 600; font-size: 0.95rem; color: #FFF;">{{ res.name }}</div>
+                                    <div style="font-size: 0.8rem; color: var(--text-secondary);">{{ res.email }}</div>
+                                </div>
+                                <span class="badge badge-primary">Daire {{ res.apartment_no or 'Belirtilmemiş' }}</span>
+                            </div>
+                        {% endfor %}
+                    </div>
+                {% else %}
+                    <p style="color: var(--text-secondary); font-size: 0.95rem;">Sistemde kayıtlı sakin bulunamadı.</p>
+                {% endif %}
+            </div>
+        </div>
+    </div>
+
+{% else %}
+    <!-- ================= RESIDENT DASHBOARD ================= -->
+    <div class="dashboard-grid">
+        <div class="stat-card stat-success">
+            <div class="stat-info">
+                <h3>Ödenen Aidatlar</h3>
+                <div class="stat-value">{{ "%.2f"|format(paid) }} TL</div>
+            </div>
+            <div class="stat-icon"><i class="fa-solid fa-shield-heart"></i></div>
+        </div>
+        
+        <div class="stat-card stat-danger">
+            <div class="stat-info">
+                <h3>Ödenecek Borç</h3>
+                <div class="stat-value">{{ "%.2f"|format(unpaid) }} TL</div>
+            </div>
+            <div class="stat-icon"><i class="fa-solid fa-circle-exclamation"></i></div>
+        </div>
+    </div>
+
+    <div class="two-col-layout">
+        <!-- Left Side: Maintenance & Announcements -->
+        <div>
+            <!-- Latest Maintenance Requests -->
+            <div class="glass-card">
+                <div class="card-title">
+                    <i class="fa-solid fa-wrench text-primary"></i> Arıza Taleplerim
+                </div>
+                {% if my_requests %}
+                    <div class="table-responsive">
+                        <table class="table">
+                            <thead>
+                                <tr>
+                                    <th>Konu</th>
+                                    <th>Tarih</th>
+                                    <th>Durum</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                {% for req in my_requests %}
+                                    <tr>
+                                        <td><strong>{{ req.subject }}</strong></td>
+                                        <td>{{ req.date.strftime('%d.%m.%Y') }}</td>
+                                        <td>
+                                            {% if req.status == 'pending' %}
+                                                <span class="badge badge-pending">Beklemede</span>
+                                            {% elif req.status == 'in_progress' %}
+                                                <span class="badge badge-progress">İşlemde</span>
+                                            {% else %}
+                                                <span class="badge badge-completed">Tamamlandı</span>
+                                            {% endif %}
+                                        </td>
+                                    </tr>
+                                {% endfor %}
+                            </tbody>
+                        </table>
+                    </div>
+                {% else %}
+                    <p style="color: var(--text-secondary); font-size: 0.95rem;">Henüz bir arıza bildiriminiz bulunmuyor.</p>
+                {% endif %}
+                <div style="margin-top: 1.5rem;">
+                    <a href="{{ url_for('maintenance_requests') }}" class="btn btn-secondary btn-block">
+                        <i class="fa-solid fa-plus"></i> Yeni Arıza Bildir
+                    </a>
+                </div>
+            </div>
+
+            <!-- Latest Announcements -->
+            <div class="glass-card">
+                <div class="card-title">
+                    <i class="fa-solid fa-bullhorn text-secondary"></i> Güncel Duyurular
+                </div>
+                {% if announcements %}
+                    {% for ann in announcements %}
+                        <div style="padding: 1rem 0; border-bottom: 1px solid rgba(255, 255, 255, 0.04);">
+                            <h4 style="font-size: 1.05rem; margin-bottom: 0.25rem; color: #FFF;">{{ ann.title }}</h4>
+                            <p style="font-size: 0.9rem; color: var(--text-secondary); margin-bottom: 0.5rem;">{{ ann.content }}</p>
+                            <span style="font-size: 0.75rem; color: var(--text-muted);">
+                                <i class="fa-solid fa-calendar"></i> {{ ann.date.strftime('%d.%m.%Y') }}
+                            </span>
+                        </div>
+                    {% endfor %}
+                {% else %}
+                    <p style="color: var(--text-secondary); font-size: 0.95rem;">Yayınlanmış duyuru bulunmuyor.</p>
+                {% endif %}
+            </div>
+        </div>
+
+        <!-- Right Side: Due Reminders -->
+        <div>
+            <div class="glass-card">
+                <div class="card-title">
+                    <i class="fa-solid fa-credit-card text-success"></i> Son Aidatlar
+                </div>
+                {% if my_dues %}
+                    <div style="display: flex; flex-direction: column; gap: 1rem;">
+                        {% for due in my_dues[:5] %}
+                            <div style="display: flex; align-items: center; justify-content: space-between; padding-bottom: 0.75rem; border-bottom: 1px solid rgba(255, 255, 255, 0.03);">
+                                <div>
+                                    <div style="font-weight: 600; font-size: 0.95rem; color: #FFF;">{{ due.period }}</div>
+                                    <div style="font-size: 0.85rem; color: var(--text-secondary);">{{ "%.2f"|format(due.amount) }} TL</div>
+                                </div>
+                                {% if due.is_paid %}
+                                    <span class="badge badge-completed"><i class="fa-solid fa-circle-check"></i> Ödendi</span>
+                                {% else %}
+                                    <form method="POST" action="{{ url_for('pay_due', due_id=due.id) }}">
+                                        <button type="submit" class="btn btn-success" style="padding: 0.35rem 0.75rem; font-size: 0.8rem;">
+                                            Öde
+                                        </button>
+                                    </form>
+                                {% endif %}
+                            </div>
+                        {% endfor %}
+                    </div>
+                {% else %}
+                    <p style="color: var(--text-secondary); font-size: 0.95rem;">Adınıza kayıtlı aidat bulunmamaktadır.</p>
+                {% endif %}
+                <div style="margin-top: 1.5rem;">
+                    <a href="{{ url_for('dues') }}" class="btn btn-secondary btn-block">Tüm Aidatlarımı Gör</a>
+                </div>
+            </div>
+        </div>
+    </div>
+{% endif %}
+{% endblock %}

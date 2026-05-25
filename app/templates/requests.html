@@ -1,0 +1,98 @@
+{% extends "base.html" %}
+
+{% block content %}
+<div class="page-title">
+    <div>
+        <span style="font-size: 0.95rem; font-weight: 500; color: var(--primary); display: block; text-transform: uppercase; letter-spacing: 1px;">Destek</span>
+        Arıza Bildirimleri
+    </div>
+</div>
+
+<div class="{% if current_user.role != 'manager' %}two-col-layout{% endif %}">
+    <!-- Left Column: Requests List -->
+    <div>
+        {% if requests %}
+            {% for req in requests %}
+                <div class="glass-card" style="margin-bottom: 1.5rem;">
+                    <div style="display: flex; justify-content: space-between; align-items: flex-start; gap: 1rem; margin-bottom: 0.75rem; flex-wrap: wrap;">
+                        <div>
+                            <span style="font-size: 0.8rem; color: var(--primary); font-weight: 600; display: block; margin-bottom: 0.25rem;">
+                                TALEP #{{ req.id }}
+                            </span>
+                            <h3 style="font-size: 1.15rem; color: #FFF; font-family: var(--font-heading);">
+                                {{ req.subject }}
+                            </h3>
+                        </div>
+                        
+                        <!-- Status Badges / Update Forms -->
+                        <div>
+                            {% if current_user.role == 'manager' %}
+                                <form method="POST" action="{{ url_for('update_request_status', req_id=req.id) }}" style="display: flex; align-items: center; gap: 0.5rem;">
+                                    <select name="status" class="form-control" style="padding: 0.35rem 1.75rem 0.35rem 0.75rem; font-size: 0.85rem; border-radius: 8px;" onchange="this.form.submit()">
+                                        <option value="pending" {% if req.status == 'pending' %}selected{% endif %}>Beklemede</option>
+                                        <option value="in_progress" {% if req.status == 'in_progress' %}selected{% endif %}>İşlemde</option>
+                                        <option value="completed" {% if req.status == 'completed' %}selected{% endif %}>Tamamlandı</option>
+                                    </select>
+                                </form>
+                            {% else %}
+                                {% if req.status == 'pending' %}
+                                    <span class="badge badge-pending">Beklemede</span>
+                                {% elif req.status == 'in_progress' %}
+                                    <span class="badge badge-progress">İşlemde</span>
+                                {% else %}
+                                    <span class="badge badge-completed">Tamamlandı</span>
+                                {% endif %}
+                            {% endif %}
+                        </div>
+                    </div>
+                    
+                    <p style="color: var(--text-secondary); font-size: 0.95rem; line-height: 1.6; margin-bottom: 1rem; white-space: pre-wrap;">{{ req.description }}</p>
+                    
+                    <div style="display: flex; justify-content: space-between; align-items: center; border-top: 1px solid rgba(255, 255, 255, 0.04); padding-top: 0.75rem; font-size: 0.8rem; color: var(--text-muted);">
+                        <span>
+                            <i class="fa-solid fa-house"></i> Sakin No: {{ req.user_id }}
+                        </span>
+                        <span>
+                            <i class="fa-solid fa-clock"></i> {{ req.date.strftime('%d.%m.%Y %H:%M') }}
+                        </span>
+                    </div>
+                </div>
+            {% endfor %}
+        {% else %}
+            <div class="glass-card" style="text-align: center; padding: 3rem;">
+                <i class="fa-solid fa-wrench" style="font-size: 3rem; color: var(--text-muted); margin-bottom: 1rem;"></i>
+                <p style="color: var(--text-secondary);">Şu an kayıtlı hiçbir arıza talebi bulunmuyor.</p>
+            </div>
+        {% endif %}
+    </div>
+
+    <!-- Right Column: Create Request Form (Residents Only) -->
+    {% if current_user.role != 'manager' and form %}
+        <div>
+            <div class="glass-card" style="position: sticky; top: 100px;">
+                <div class="card-title">
+                    <i class="fa-solid fa-square-plus text-primary"></i> Yeni Arıza Bildir
+                </div>
+                
+                <form method="POST" action="{{ url_for('new_request') }}">
+                    {{ form.hidden_tag() }}
+                    
+                    <div class="form-group">
+                        <label for="subject" class="form-label">Arıza Konusu</label>
+                        {{ form.subject(class="form-control", placeholder="Örn: Sıcak su borusu sızıntısı", id="subject") }}
+                    </div>
+                    
+                    <div class="form-group">
+                        <label for="description" class="form-label">Açıklama</label>
+                        {{ form.description(class="form-control", rows="5", placeholder="Arızanın yeri ve detaylı durumu hakkında açıklama...", id="description") }}
+                    </div>
+                    
+                    <button type="submit" class="btn btn-primary btn-block" style="margin-top: 1.5rem;">
+                        <i class="fa-solid fa-paper-plane"></i> Bildirimi Gönder
+                    </button>
+                </form>
+            </div>
+        </div>
+    {% endif %}
+</div>
+{% endblock %}
