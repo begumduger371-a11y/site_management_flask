@@ -4,7 +4,7 @@
 **Proje Adı:** Site Management Flask  
 **Geliştirici:** Begüm Düger  
 **Tarih:** Mayıs 2026  
-**Repository:** https://github.com/begumduger371-a11y/site_management_flask
+**Repository:** https://github.com/begumduger371-a11y/site_management_flask 
 
 ---
 
