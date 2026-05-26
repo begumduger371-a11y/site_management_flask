@@ -1,50 +1,58 @@
-Bu günlük, Akıllı Site Yönetim Sistemi projesinin geliştirilme sürecinde yapay zeka asistanı (Antigravity AI) ile gerçekleştirilen etkileşimleri ve sorun çözme adımlarını içermektedir.
+Bu günlük, Akıllı Site Yönetim Sistemi projesinin geliştirilme sürecinde yapay zeka asistanı ile gerçekleştirilen etkileşimleri ve sorun çözme adımlarını içmektedir.
 
 ---
 
 1. Oturum: Proje Mimarisi ve Klasör Yapısı
-* *Geliştirici Hedefi:* Flask uygulamasının modüler, temiz ve hocanın istediği standartlara uygun bir klasör yapısıyla başlatılması.
-* *AI'a Sorulan Soru (Prompt):* "Bir site yönetim sistemi için Flask projesinde en doğru ve güvenli klasör yapısı nasıl olmalı? app klasörü ve run.py nasıl ayrılmalı?"
-* *Yapay Zekanın Çözümü ve Katkısı:* AI bana app/__init__.py, routes.py, models.py ve şablonların ayrı ayrı durduğu modüler bir yapı önerdi. Projeyi bu mimariyle kurarak karmaşanın önüne geçtim.
+* Geliştirici Hedefi: Flask uygulamasının modüler, temiz ve hocanın istediği standartlara uygun bir klasör yapısıyla başlatılması.
+* AI'a Sorulan Soru (Prompt): "Bir site yönetim sistemi için Flask projesinde en doğru ve güvenli klasör yapısı nasıl olmalı? app klasörü ve run.py nasıl ayrılmalı?"
+* Yapay Zekanın Çözümü ve Katkısı: AI bana app/init.py, routes.py, models.py ve şablonların ayrı ayrı durduğu modüler bir yapı önerdi. Projeyi bu mimariyle kurarak karmaşanın önüne geçtim.
+
+![Yapay Zeka Planı](72f242ea-826b-45c1-9f55-b42ecf63983e.jpg)
 
 ---
 
- 2. Oturum: Veritabanı Modellerinin Tasarımı
-* *Geliştirici Hedefi:* SQLite veritabanında daireler, kullanıcılar, aidatlar ve log kayıtları için ilişkisel tablolar oluşturmak.
-* *AI'a Sorulan Soru (Prompt):* "Flask-SQLAlchemy kullanarak Daireler (Apartments) ve Kullanıcılar (Users) arasında nasıl bir 'one-to-many' ilişkisi kurabilirim?"
-* *Yapay Zekanın Çözümü ve Katkısı:* AI, db.relationship ve ForeignKey kullanarak tabloları birbiriyle bağlayan Python kodlarını üretti. Bu sayede bir daireye birden fazla kullanıcı atama mantığını hatasız kurdum.
+2. Oturum: Veritabanı Modellerinin Tasarımı
+* Geliştirici Hedefi: SQLite veritabanında daireler, kullanıcılar, aidatlar ve log kayıtları için ilişkisel tablolar oluşturmak.
+* AI'a Sorulan Soru (Prompt): "Flask-SQLAlchemy kullanarak Daireler (Apartments) ve Kullanıcılar (Users) arasında nasıl bir 'one-to-many' ilişkisi kurabilirim?"
+* Yapay Zekanın Çözümü ve Katkısı: AI, db.relationship ve ForeignKey kullanarak tabloları birbiriyle bağlayan Python kodlarını üretti. Bu sayede bir daireye birden fazla kullanıcı atama mantığını hatasız kurdum.
+
+![Kütüphane Kurulumu](ae31c9dc-eb2b-40a1-9e0b-c0e4ab542d56.jpg)
 
 ---
 
- 3. Oturum: Güvenli Şifreleme ve Giriş Sistemi
-* *Geliştirici Hedefi:* Hocanın rubrikte özellikle belirttiği "Şifrelerin düz metin olarak saklanmaması" kuralına uymak.
-* *AI'a Sorulan Soru (Prompt):* "Kullanıcı kayıt olurken şifresini veritabanına açık halde yazmamak için Werkzeug kütüphanesini nasıl kullanırım?"
-* *Yapay Zekanın Çözümü ve Katkısı:* AI, generate_password_hash ve check_password_hash fonksiyonlarını entegre etti. Veritabanına şifreler karmaşık (hash) halde kaydedildi, böylece rubrikteki büyük bir puan kaybı tuzağından kurtuldum.
+3. Oturum: Güvenli Şifreleme ve Giriş Sistemi
+* Geliştirici Hedefi: Hocanın rubrikte özellikle belirttiği "Şifrelerin düz metin olarak saklanmaması" kuralına uymak.
+* AI'a Sorulan Soru (Prompt): "Kullanıcı kayıt olurken şifresini veritabanına açık halde yazmamak için Werkzeug kütüphanesini nasıl kullanırım?"
+* Yapay Zekanın Çözümü ve Katkısı: AI, generate_password_hash ve check_password_hash fonksiyonlarını entegre etti. Veritabanına şifreler karmaşık (hash) halde kaydedildi, böylece rubrikteki büyük bir puan kaybı tuzağından kurtulum.
+
+![Terminal Onayı](017fe08b-2b24-4cea-af11-07fece1aa140.jpg)
 
 ---
 
- 4. Oturum: Arayüz Tasarımı ve Jinja2 Miras Mekanizması
-* *Geliştirici Hedefi:* HTML sayfalarında sürekli aynı menüleri tekrar tekrar yazmamak, dinamik bir dashboard üretmek.
-* *AI'a Sorulan Soru (Prompt):* "Jinja2 şablon motorunda base.html oluşturup diğer sayfaları (login, dashboard) bundan nasıl türetebilirim?"
-* *Yapay Zekanın Çözümü ve Katkısı:* {% extends "base.html" %} ve {% block content %} yapılarını öğrendim. Frontend kodlarım %60 oranında hafifledi ve temiz bir görünüm kazandı.
+4. Oturum: Arayüz Tasarımı ve Jinja2 Miras Mekanizması
+* Geliştirici Hedefi: HTML sayfalarında sürekli aynı menüleri tekrar tekrar yazmamak, dinamik bir dashboard üretmek.
+* AI'a Sorulan Soru (Prompt): "Jinja2 şablon motorunda base.html oluşturup diğer sayfaları (login, dashboard) bundan nasıl türetebilirim?"
+* Yapay Zekanın Çözümü ve Katkısı: {% extends "base.html" %} ve {% block content %} yapılarını öğrendim. Frontend kodlarım %60 oranında hafifledi ve temiz bir görünüm kazandı.
 
 ---
 
- 5. Oturum: Çevre Değişkenleri ve Gizlilik (.env)
-* *Geliştirici Hedefi:* Flask SECRET_KEY ve veritabanı yollarını kodun içinden söküp güvenli bir yerde saklamak.
-* *AI'a Sorulan Soru (Prompt):* "Hoca gizli anahtarların kodun içinde kalmasını yasakladı. python-dotenv kullanarak .env dosyasından bu verileri nasıl çekerim?"
-* *Yapay Zekanın Çözümü ve Katkısı:* .env dosyasının oluşturulması ve os.environ.get() ile bu verilerin config.py içine çekilmesi sağlandı. Proje güvenliği hocanın istediği seviyeye geldi.
+5. Oturum: Çevre Değişkenleri ve Gizlilik (.env)
+* Geliştirici Hedefi: Flask SECRET_KEY ve veritabanı yollarını kodun içinden söküp güvenli bir yerde saklamak.
+* AI'a Sorulan Soru (Prompt): "Hoca gizli anahtarların kodun içinde kalmasını yasakladı. python-dotenv kullanarak .env dosyasından bu verileri nasıl çekerim?"
+* Yapay Zekanın Çözümü ve Katkısı: .env dosyasının oluşturulması ve os.environ.get() ile bu verilerin config.py içine çekilmesi sağlandı. Proje güvenliği hocanın istediği seviyeye geldi.
 
 ---
 
- 6. Oturum: Hata Ayıklama (Debugging)
-* *Geliştirici Hedefi:* Veritabanı sorguları sırasında oluşan çakışma ve "Context" hatalarını çözmek.
-* *AI'a Sorulan Soru (Prompt):* "Flask uygulamasını ayağa kaldırırken RuntimeError: Working outside of application context. hatası alıyorum, nasıl çözerim?"
-* *Yapay Zekanın Çözümü ve Katkısı:* AI, veritabanı tablolarını oluştururken with app.app_context(): bloğunu kullanmam gerektiğini gösterdi. Hatayı bu sayede tık diye çözüp uygulamayı çalışır hale getirdim.
+6. Oturum: Hata Ayıklama (Debugging)
+* Geliştirici Hedefi: Veritabanı sorguları sırasında oluşan çakışma ve "Context" hatalarını çözmek.
+* AI'a Sorulan Soru (Prompt): "Flask uygulamasını ayağa kaldırırken RuntimeError: Working outside of application context. hatası alıyorum, nasıl çözerim?"
+* Yapay Zekanın Çözümü ve Katkısı: AI, veritabanı tablolarını oluştururken with app.app_context(): bloğunu kullanmam gerektiğini gösterdi. Hatayı bu sayede tık diye çözüp uygulamayı çalışır hale getirdim.
 
 ---
 
- 7. Oturum: Kota Sınırı ve Manuel Sürükle-Bırak Keşfi
-* *Geliştirici Hedefi:* Projenin son aşamasında yapay zeka kotasının (token limiti) dolması üzerine GitHub yüklemelerini tamamlamak.
-* *AI'a Sorulan Soru (Prompt):* Terminal komutlarında ve dosya yönetiminde yapay zekanın ücretsiz kotası dolduğu için süreç yarıda kaldı.
-* *Yapay Zekanın Çözümü ve Katkısı:* Bu aşamada yapay zekaya bağımlı kalmamayı öğrendim. Bilgisayarda manuel olarak README.md dosyasını oluşturup video linkini ekledim ve GitHub'ın tarayıcı üzerindeki "Upload files" (sürükle-bırak) özelliğini kullanarak projeyi tamamen buluta uçurdum.
+7. Oturum: Kota Sınırı ve Manuel Sürükle-Bırak Keşfi
+* Geliştirici Hedefi: Projenin son aşamasında yapay zeka kotasının (token limiti) dolması üzerine GitHub yüklemelerini tamamlamak.
+* AI'a Sorulan Soru (Prompt): Terminal komutlarında ve dosya yönetiminde yapay zekanın ücretsiz kotası dolduğu için süreç yarıda kaldı.
+* Yapay Zekanın Çözümü ve Katkısı: Bu aşamada yapay zeka kotası dolduğu için arka planda Git komutlarını sırayla işleterek repoyu parça parça commit etme yol haritasını çıkardım ve manuel yüklemeleri keşfettim.
+
+![Yapay Zeka Kota Hatası](233b0b06-9138-43cc-b505-96b80c65fd45.jpg)
