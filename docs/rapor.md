@@ -1,8 +1,10 @@
 # Akıllı Site Yönetim Sistemi — Dönem Projesi Raporu
 
-**Ders:** Yazılım Mühendisliği / Web Programlama  
+**Üniversite:** Gazi Üniversitesi  
+**Bölüm:** Bilişim Güvenliği Teknolojisi  
+**Ders:** İnternet Programcılığı  
 **Proje Adı:** Site Management Flask  
-**Geliştirici:** begumduger371-a11y  
+**Geliştirici:** Begüm Düger  
 **Tarih:** Mayıs 2026  
 **Repository:** https://github.com/begumduger371-a11y/site_management_flask
 
@@ -120,4 +122,4 @@ Buna paralel olarak, arıza bildirim modülüne **görüntü yükleme** ve **dur
 
 ---
 
-*Bu rapor, Spring 2026 dönemi yazılım geliştirme projesinin akademik değerlendirmesi amacıyla hazırlanmıştır.*
+*Bu rapor, Bahar 2026 dönemi internet programcılığı projesinin akademik değerlendirmesi amacıyla hazırlanmıştır.*
