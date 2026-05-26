@@ -1,7 +1,5 @@
 # Akıllı Site Yönetim Sistemi — Dönem Projesi Raporu
 
-**Üniversite:** Gazi Üniversitesi  
-**Bölüm:** Bilişim Güvenliği Teknolojisi  
 **Ders:** İnternet Programcılığı  
 **Proje Adı:** Site Management Flask  
 **Geliştirici:** Begüm Düger  
