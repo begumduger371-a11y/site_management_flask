@@ -2,7 +2,7 @@ Bu günlük, Akıllı Site Yönetim Sistemi projesinin geliştirilme sürecinde 
 
 ---
 
-1. Oturum: Proje Mimarisi ve Klasör Yapısı
+1. Oturum: Proje Mimarisi ve Klasör Yapısı   
 * Geliştirici Hedefi: Flask uygulamasının modüler, temiz ve hocanın istediği standartlara uygun bir klasör yapısıyla başlatılması.
 * AI'a Sorulan Soru (Prompt): "Bir site yönetim sistemi için Flask projesinde en doğru ve güvenli klasör yapısı nasıl olmalı? app klasörü ve run.py nasıl ayrılmalı?"
 * Yapay Zekanın Çözümü ve Katkısı: AI bana app/init.py, routes.py, models.py ve şablonların ayrı ayrı durduğu modüler bir yapı önerdi. Projeyi bu mimariyle kurarak karmaşanın önüne geçtim.
